@@ -25,4 +25,4 @@ jobs:
         with:
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: lemonaderoom/software-engineering-cui:${{ env.version }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/software-engineering-cui:${{ env.version }}, ${{ secrets.DOCKERHUB_USERNAME }}/software-engineering-cui:latest
