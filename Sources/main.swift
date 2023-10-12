@@ -11,6 +11,20 @@ let 最大値 = Decimal(99_999_999) / 1000
 let 最小値 = Decimal(-99_999_999) / 1000
 let 最大小数位 = 4
 
+func printDecimal(_ decimal: Decimal) {
+  let roundingBehavior = NSDecimalNumberHandler(
+    roundingMode: .plain,
+    scale: 4,
+    raiseOnExactness: false,
+    raiseOnOverflow: false,
+    raiseOnUnderflow: false,
+    raiseOnDivideByZero: false
+  )
+  let roundedValue = NSDecimalNumber(decimal: decimal).rounding(
+    accordingToBehavior: roundingBehavior)
+  print(roundedValue)
+}
+
 enum CalculateOperator: String, CaseIterable {
   case 足し算 = "+"
   case 引き算 = "-"
@@ -24,17 +38,17 @@ enum CalculateOperator: String, CaseIterable {
   func calculate(_ lhs: Decimal, _ rhs: Decimal) {
     switch self {
     case .足し算:
-      print(lhs + rhs)
+      printDecimal(lhs + rhs)
     case .引き算:
-      print(lhs - rhs)
+      printDecimal(lhs - rhs)
     case .掛け算:
-      print(lhs * rhs)
+      printDecimal(lhs * rhs)
     case .割り算:
       guard rhs != 0 else {
         print("0で割ることはできません")
         exit(1)
       }
-      print(lhs / rhs)
+      printDecimal(lhs / rhs)
     }
   }
 }
@@ -65,14 +79,14 @@ extension String {
   }
 }
 
-guard CommandLine.arguments.count == 2 else {
+guard CommandLine.arguments.count == 4 else {
   print("引数値の数は3つである必要があります")
   exit(1)
 }
 
-let leftArg = CommandLine.arguments[0]
-let middleArg = CommandLine.arguments[1]
-let rightArg = CommandLine.arguments[2]
+let leftArg = CommandLine.arguments[1]
+let middleArg = CommandLine.arguments[2]
+let rightArg = CommandLine.arguments[3]
 
 guard leftArg.is数値, let lhs = leftArg.decimal else {
   print("左辺: \(leftArg)は数値である必要があります")
